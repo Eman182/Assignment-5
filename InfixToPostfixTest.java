@@ -60,6 +60,11 @@ class InfixToPostfixTest {
 	assertEquals("0 7 -",e.infixToPostfix("-(7) "+"."));
 	assertEquals("0 7 -",e.infixToPostfix("(-7) "+"."));
 	assertEquals("0 7 - 5 *",e.infixToPostfix("((-(7)))*5"+"."));
+	assertEquals("",e.infixToPostfix(""+"."));
+	assertEquals("",e.infixToPostfix(" "+"."));
+	assertEquals("0 0 5 - - 0 3 - * 0 5 - *",e.infixToPostfix("(-((-(5))))*-3*-(5)"+"."));
+	assertEquals("0 0 0 5 - - - 0 3 - * 0 5 0 3 - * - *", e.infixToPostfix("(-(-(-(5))))*-3*-(5*(-(3)))"+"."));
+	assertEquals("0 6 - 0 0 0 5 - - - *", e.infixToPostfix("-(6)*(-(-(-(5))))"+"."));
 	}
 
 }

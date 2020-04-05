@@ -104,87 +104,97 @@ public class Evaluator implements IExpressionEvaluator {
 		 * @return the string after solving the problem of negative brackets if found
 		 */
 		int i=0;
-		StringBuilder d=new StringBuilder();
-		
-		StringBuilder myNewString=new StringBuilder(myString);
-    	StackMethods ss=new StackMethods();int xx=0;int x=0;
-    	
-		for(i=0;i<myString.length();i++) {
-    		d.append('(');d.append('0');d.append('-');
+		StringBuilder d=new StringBuilder();StackMethods sss=new StackMethods();
+		StringBuilder news=new StringBuilder(myString);
+		int y=0;
+    	StackMethods ss=new StackMethods();int xx=0;int x=0; int counter=0;
+    	for(i=0;i<news.length()&&(news.toString().contains("(-(")==true);i++) {
+    		//we want now to check this shape (-(-((5))))
     		if(i>0) {
-    		if(myString.charAt(i)=='-'&&myString.charAt(i+1)=='(') {
-    			if(myString.charAt(i-1)=='-'||
-    					myString.charAt(i-1)=='+'||
-    					myString.charAt(i-1)=='*'||
-    					myString.charAt(i-1)=='/'||myString.charAt(i-1)=='(') {
-    				//it is neg sign
-    				int sta=i;
-    				i++;
-    				while(i<myString.length()) {
-    					if(myString.charAt(i)==')'&&ss.size()==1) {
-    						ss.pop();
-    						d.append(myString.charAt(i));
-    						break;
-    					}
-    					else if(myString.charAt(i)==')'&&ss.size()>1) {
-    					    d.append(myString.charAt(i));
-    						ss.pop();
-    					}
-    					else if(myString.charAt(i)=='(') {
-    						d.append(myString.charAt(i));
-    						ss.push(myString.charAt(i));
-    					}
-    					else {
-    						d.append(myString.charAt(i));
-    					}
-    					i++;
+    			if(news.charAt(i)=='-'&&news.charAt(i+1)=='('&&
+    					news.charAt(i-1)=='(') {
+    				d.append("(0-");
+    				int start=i;i++;while(i<news.length()) {
+    					if(news.charAt(i)==')') {
+    						d.append(news.charAt(i));
+    						if(sss.size()==1) {
+    							sss.pop();
+    							break;
+    						}else {
+    							sss.pop();
+    						}
+    					}else if(news.charAt(i)=='(') {
+    						sss.push(news.charAt(i));d.append(news.charAt(i));
+    					}else {
+    						d.append(news.charAt(i));
+    					}i++;
     				}
-    				if(i<myNewString.length()) {
-    				myNewString.replace((sta+xx),i+xx, d.toString());}
-    				else {
-        				myNewString.replace((sta+xx),myNewString.length(), d.toString());
-    				}
-    				//System.out.println(myNewString.toString());
-    				d.delete(0, d.length());xx=xx+3;
-    				i=sta+1;
+    				news.replace(start, i, d.toString());
+    			}
+    		}else {
+    			//i=0
+    			continue;
+    			
+    		}d.delete(0, d.length());
+    		if(i==news.length()-1&&news.toString().contains("(-(")==true) {
+    			y++;i=y;
+    		}else {
+    			if(i==news.length()-1&&news.toString().contains("(-(")==false) {
+    				break;
     			}
     		}
-    		}
-    		else {
+    	}
+    	if(d.length()>0) {d.delete(0,d.length());}
+    	StringBuilder myNewString=new StringBuilder(news);
+		for(i=0;i<myNewString.length();i++) {
+    		if(i>0) {
+    			if(myNewString.charAt(i)=='-'
+    					&&myNewString.charAt(i+1)=='('&&
+    					(myNewString.charAt(i-1)=='+'||
+    					myNewString.charAt(i-1)=='-'||
+    					myNewString.charAt(i-1)=='*'||
+    					myNewString.charAt(i-1)=='/')) {
+    				d.append('(');d.append('0');d.append('-');int sta=i;
+    				i++;
+    				
+    				while(i<myNewString.length()) {
+    					if(myNewString.charAt(i)==')') {
+    						d.append(myNewString.charAt(i));
+    						if(ss.size()==1) {
+    							ss.pop();break;
+    						}else {
+    							ss.pop();
+    						}
+    					}else if(myNewString.charAt(i)=='(') {
+    						d.append(myNewString.charAt(i));
+    						ss.push(myNewString.charAt(i));
+    					}
+    					else {
+    						d.append(myNewString.charAt(i));
+    					}i++;
+    				}myNewString=myNewString.replace(sta, i, d.toString());
+    				
+    			}
+    		}else {
     			//i=0
-    			if(myString.charAt(i)=='-') {
-    				if(myString.charAt(i+1)=='(') {
-    					//it is neg sign
-    					int sta=i;
-        				i++;
-        				while(i<myString.length()) {
-        					if(myString.charAt(i)==')'&&ss.size()==1) {
-        						ss.pop();
-        						d.append(myString.charAt(i));
-        						break;
-        					}
-        					else if(myString.charAt(i)==')'&&ss.size()>1) {
-        					    d.append(myString.charAt(i));
-        						ss.pop();
-        					}
-        					else if(myString.charAt(i)=='(') {
-        						d.append(myString.charAt(i));
-        						ss.push(myString.charAt(i));
-        					}
-        					else {
-        						d.append(myString.charAt(i));
-        					}
-        					i++;
-        				}
-        				if(i<myNewString.length()) {
-        				myNewString.replace((sta+xx),i+xx, d.toString());}
-        				else {
-            				myNewString.replace((sta+xx),myNewString.length(), d.toString());
-        				}
-        				//System.out.println(myNewString.toString());
-        				d.delete(0, d.length());xx=xx+3;
-        				i=sta+1;
+    			if(myNewString.charAt(i)=='-'&&myNewString.charAt(i+1)=='(') {
+    				d.append("(0-");
+    				int start=i;i++;while(i<myNewString.length()) {
+    					if(myNewString.charAt(i)==')') {
+    						d.append(myNewString.charAt(i));
+    						if(ss.size()==1) {
+    							ss.pop();
+    							break;
+    						}else {
+    							ss.pop();
+    						}
+    					}else if(myNewString.charAt(i)=='(') {
+    						ss.push(myNewString.charAt(i));d.append(myNewString.charAt(i));
+    					}else {
+    						d.append(myNewString.charAt(i));
+    					}i++;
     				}
+    				myNewString=myNewString.replace(start, i, d.toString());
     			}
     		}
     		d.delete(0, d.length());
@@ -430,12 +440,17 @@ public class Evaluator implements IExpressionEvaluator {
 		int end=0;
 		StringBuilder d = new StringBuilder("");
 		String newExpression=new String();
-		newExpression=expression;
+		StringBuilder strin=new StringBuilder(expression);
+		strin.deleteCharAt(strin.length()-1);
+		newExpression=strin.toString();
 		newExpression=newExpression.replaceAll("\\s","");
 		//we can remove the spaces first 
 		Evaluator t=new Evaluator();
-		newExpression=t.checkNegBrackets(newExpression);
+		newExpression=t.checkNegBrackets(newExpression);newExpression=newExpression.concat(".");
 	    StringBuilder myString = new StringBuilder(newExpression);
+	    if(newExpression.length()==1) {
+	    	return "";
+	    }
 	    if(newExpression.length()>2){
 		for(i=0;i<newExpression.length();) {
 			d.append('(');
