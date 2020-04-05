@@ -71,12 +71,6 @@ class EvaluateTest {
 			System.out.println(kk.getMessage());
 		}	
 		try {
-			e.evaluate("");
-		}
-		catch(RuntimeException k) {
-			System.out.println(k.getMessage());
-		}
-		try {
 			e.evaluate(e.infixToPostfix(""+"."));
 		}
 		catch(RuntimeException k) {
@@ -95,11 +89,6 @@ class EvaluateTest {
 			System.out.println(k.getMessage());
 		}
 		try {
-			e.evaluate("");
-		}
-		catch(RuntimeException k) {
-			System.out.println(k.getMessage());
-		}try {
 			e.evaluate("1 / 2");
 		}
 		catch(RuntimeException k) {
