@@ -144,9 +144,12 @@ public class Evaluator implements IExpressionEvaluator {
     			}
     		}
     	}
-    	if(d.length()>0) {d.delete(0,d.length());}
+    	if(d.length()>0) {d.delete(0,d.length());}int l=0;
     	StringBuilder myNewString=new StringBuilder(news);
-		for(i=0;i<myNewString.length();i++) {
+		for(i=0;i<myNewString.length()&&((myNewString.toString().contains("*-(")==true)
+				||(myNewString.toString().contains("+-(")==true)
+				||(myNewString.toString().contains("/-(")==true)
+				||(myNewString.toString().contains("--(")==true)||(myNewString.charAt(0)=='-'&&myNewString.charAt(1)=='('));i++) {
     		if(i>0) {
     			if(myNewString.charAt(i)=='-'
     					&&myNewString.charAt(i+1)=='('&&
@@ -198,6 +201,13 @@ public class Evaluator implements IExpressionEvaluator {
     			}
     		}
     		d.delete(0, d.length());
+    		if(i==myNewString.length()-1&&((myNewString.toString().contains("*-(")==true)
+    				||(myNewString.toString().contains("+-(")==true)
+    				||(myNewString.toString().contains("/-(")==true)
+    				||(myNewString.toString().contains("--(")==true))) {
+    			l++;i=l;
+    		}
+    		
     	}
 		return myNewString.toString();
 	}
