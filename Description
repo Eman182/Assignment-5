@@ -1,0 +1,4 @@
+This is an expression evaluator console application
+it is written in java
+it takes an expression as input --> converts it to postfix --> evaluate this postfix expression and returns the result.
+it is made to learn more about stacks
